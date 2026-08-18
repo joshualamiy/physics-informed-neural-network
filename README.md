@@ -14,9 +14,9 @@ The initial condition terms get weighted 100x because they're only evaluated at 
 
 ## Method
 
-- **Architecture**: 3 hidden layers, 64 units each, `tanh` activation, single scalar output. `tanh` is used because it is smooth and infinitely differentiable. The loss depends on the network's second derivative, so an activation like ReLU would give a residual that is zero almost everywhere and carries no gradient signal.
+- **Architecture**: 3 hidden layers, 128 units each, `tanh` activation, single scalar output. `tanh` is used because it is smooth and infinitely differentiable. The loss depends on the network's second derivative, so an activation like ReLU would give a residual that is zero almost everywhere and carries no gradient signal.
 - **Collocation points**: 1500 points sampled uniformly over `t ∈ [0, 30]`, roughly 4.8 oscillations.
-- **Training**: Adam optimizer, learning rate `1e-3`, 50000 epochs.
+- **Training**: Adam optimizer, exponentially decaying learning rate starting at `2e-3`, 50000 epochs.
 
 ## Verifying the dataset parameters
 
@@ -66,7 +66,7 @@ Measured against the closed-form solution over t = 0 to 30.
 
 ## Running it
 
-Open `PhysicsModel.ipynb` in Google Colab or Jupyter with `train.csv` in the same directory, then run all cells top to bottom.
+Open `PhysicsModel_2.ipynb` in Google Colab or Jupyter with `train.csv` in the same directory, then run all cells top to bottom.
 
 ## Requirements
 

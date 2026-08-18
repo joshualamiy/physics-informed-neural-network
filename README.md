@@ -56,6 +56,14 @@ Initial conditions `x₀ = 1.0 m` and `v₀ = 0.0 m/s` are read from the first r
 
 `train.csv` contains 200 rows with columns `time`, `displacement`, `velocity`, and `acceleration`, spanning `t = 0` to `t = 300`. The notebook filters this to the training domain so that the ODE residual and the data-fit term describe the same interval.
 
+## Results
+
+Max absolute error:  1.408e-03
+Mean absolute error: 1.141e-04
+RMSE:                2.116e-04
+
+Measured against the closed-form solution over t = 0 to 30.
+
 ## Running it
 
 Open `PhysicsModel.ipynb` in Google Colab or Jupyter with `train.csv` in the same directory, then run all cells top to bottom.

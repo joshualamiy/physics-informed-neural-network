@@ -20,7 +20,7 @@ The initial condition terms get weighted 100x because they're only evaluated at 
 
 ## Verifying the dataset parameters
 
-Because `train.csv` includes an `acceleration` column, the governing equation can be rearranged as
+Because `train.csv` includes an `acceleration` column, the governing equation can be arranged as
 
 ```
 x'' = -(c/m)·x' - (k/m)·x

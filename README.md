@@ -58,9 +58,9 @@ Initial conditions `x₀ = 1.0 m` and `v₀ = 0.0 m/s` are read from the first r
 
 ## Results
 
-Max absolute error:  1.408e-03
-Mean absolute error: 1.141e-04
-RMSE:                2.116e-04
+- Max absolute error:  1.408e-03
+- Mean absolute error: 1.141e-04
+- RMSE:                2.116e-04
 
 Measured against the closed-form solution over t = 0 to 30.
 

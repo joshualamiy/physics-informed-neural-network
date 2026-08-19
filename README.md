@@ -1,6 +1,6 @@
 # Physics-Informed Neural Network: Damped Harmonic Oscillator
 
-A physics-informed neural network (PINN) built in TensorFlow that models a damped harmonic oscillator by training against its governing differential equation
+A physics-informed neural network (PINN) built in TensorFlow that models a damped harmonic oscillator by training against its governing differential equation.
 
 ## Overview
 
@@ -10,12 +10,12 @@ A normal neural net only knows what the data tells it. A PINN adds the physics a
 - **Initial velocity**: `x'(0) = v0`
 - **Data fit**: How far predictions are from the observed points
 The derivatives come from nested tf.GradientTape calls, so x' and x'' are exact instead of finite-difference approximations. That was the part I thought was the most interesting.
-The initial condition terms get weighted 100x because they're only evaluated at one point while the other two average over hundreds, so otherwise they get drowned out.
+The two initial condition terms get weighted 100x. Each is one squared error at t = 0, while the ODE residual averages over 1500 points, so without the weighting they contribute almost nothing to the gradient.
 
 ## Method
 
 - **Architecture**: 3 hidden layers, 128 units each, `tanh` activation, single scalar output. `tanh` is used because it is smooth and infinitely differentiable. The loss depends on the network's second derivative, so an activation like ReLU would give a residual that is zero almost everywhere and carries no gradient signal.
-- **Collocation points**: 1500 points sampled uniformly over `t ∈ [0, 30]`, roughly 4.8 oscillations.
+- **Collocation points**: 1500 evenly spaced points over `t ∈ [0, 30]` (a fixed `tf.linspace` grid, 0.02 s apart), roughly 4.8 oscillations.
 - **Training**: Adam optimizer, exponentially decaying learning rate starting at `2e-3`, 50000 epochs.
 
 ## Verifying the dataset parameters
@@ -38,7 +38,7 @@ x(t) = e^(-ζωₙt) · [A·cos(ω_d·t) + B·sin(ω_d·t)]
 
 where `ωₙ = √(k/m)`, `ζ = c / (2√(mk))`, and `ω_d = ωₙ√(1 - ζ²)`.
 
-I compare against that directly rather than holding out part of the data. The notebook prints max absolute error, mean absolute error, and RMSE
+I compare against that directly rather than holding out part of the data. The notebook prints max absolute error, mean absolute error, and RMSE.
 
 ## Parameters
 
@@ -54,8 +54,7 @@ Initial conditions `x₀ = 1.0 m` and `v₀ = 0.0 m/s` are read from the first r
 
 ## Data
 
-`train.csv` contains 200 rows with columns `time`, `displacement`, `velocity`, and `acceleration`, spanning `t = 0` to `t = 300`. The notebook filters this to the training domain so that the ODE residual and the data-fit term describe the same interval.
-
+`train.csv` contains 200 rows with columns `time`, `displacement`, `velocity`, and `acceleration`, evenly spaced over `t = 0` to `t = 300`. The notebook filters this to the training domain `t ∈ [0, 30]`, which leaves **20 rows**, so that the ODE residual and the data-fit term describe the same interval.
 ## Results
 
 - Max absolute error:  1.408e-03
@@ -66,7 +65,7 @@ Measured against the closed-form solution over t = 0 to 30.
 
 ## Running it
 
-Open `PhysicsModel_2.ipynb` in Google Colab or Jupyter with `train.csv` in the same directory, then run all cells top to bottom.
+Open `PhysicsModel.ipynb` in Google Colab or Jupyter with `train.csv` in the same directory, then run all cells top to bottom.
 
 ## Requirements
 
